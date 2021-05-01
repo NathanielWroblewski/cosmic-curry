@@ -42,6 +42,8 @@ const znoise = (x, y, time, resolution) => (
   remap(noise(x * resolution, y * resolution, time), [-1, 1], NOISE_RANGE)
 )
 
+seed(Math.random())
+
 const from = Vector.from([0, 0])
 const to = Vector.from([90, 360])
 const by = Vector.from([10, 10])
