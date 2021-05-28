@@ -11,3 +11,5 @@ export const COLOR_RANGE = [0, 1]
 export const RADIUS = 10
 
 export const RESOLUTIONS = [0.6, 0.1]
+
+export const FPS = 60
