@@ -9,7 +9,7 @@ import renderPolygon from './views/polygon.js'
 import { seed, noise } from './utilities/noise.js'
 import { stableSort, remap, grid, cube } from './utilities/index.js'
 import { COLORS } from './constants/colors.js'
-import { NOISE_RANGE, COLOR_RANGE, RADIUS, RESOLUTIONS } from './constants/dimensions.js'
+import { NOISE_RANGE, COLOR_RANGE, RADIUS, RESOLUTIONS, FPS } from './constants/dimensions.js'
 
 // Copyright (c) 2020 Nathaniel Wroblewski
 // I am making my contributions/submissions to this project solely in my personal
@@ -124,7 +124,7 @@ let resolutionIndex = 0
 
 const threshold = lines.length - spread * 3 + 2
 
-const step = () => {
+const render = () => {
   const halftime = 0.5 * t
   const opacity = 0.5 * Math.sin(halftime) + 0.5 // remap sin(x) to (0, 1)
   const resolutionIndex = Math.round(0.5 * Math.sin((halftime + 1.6) / 2) + 0.5)
@@ -184,9 +184,18 @@ const step = () => {
   }
 
   t += Δt
-
-  window.requestAnimationFrame(step)
 }
 
-window.requestAnimationFrame(step)
+let prevTick = 0
 
+const step = () => {
+  window.requestAnimationFrame(step)
+
+  const now = Math.round(FPS * Date.now() / 1000)
+  if (now === prevTick) return
+  prevTick = now
+
+  render()
+}
+
+step()
